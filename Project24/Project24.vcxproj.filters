@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Squad">
+      <UniqueIdentifier>{cdf200c8-a043-457f-a621-af6d69d0e14b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SchoolOfMagic">
+      <UniqueIdentifier>{6757f4de-e035-49a0-ab6a-10acecad689d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buff library">
+      <UniqueIdentifier>{ffca7f23-13be-48d1-8f5e-c155d5a9f4ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit">
+      <UniqueIdentifier>{7f532eda-2eb5-49b1-92ff-eaaa19081a41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Skill">
+      <UniqueIdentifier>{60671491-22b9-4277-b297-52df3f75122c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{76b6fc69-7099-41be-b9c8-34264fe700a8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="terrain.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="forest_terrain.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="school_of_magic.hpp">
+      <Filter>SchoolOfMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="buff_library.hpp">
+      <Filter>Buff library</Filter>
+    </ClInclude>
+    <ClInclude Include="summon_skill.hpp">
+      <Filter>SchoolOfMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="necromancy.hpp">
+      <Filter>SchoolOfMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="animalism.hpp">
+      <Filter>SchoolOfMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="demonology.hpp">
+      <Filter>SchoolOfMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="relations_holder.hpp">
+      <Filter>SchoolOfMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="squad.hpp">
+      <Filter>Squad</Filter>
+    </ClInclude>
+    <ClInclude Include="creature_squad.hpp">
+      <Filter>Squad</Filter>
+    </ClInclude>
+    <ClInclude Include="unit_squad.hpp">
+      <Filter>Squad</Filter>
+    </ClInclude>
+    <ClInclude Include="summoner_squad.hpp">
+      <Filter>Squad</Filter>
+    </ClInclude>
+    <ClInclude Include="melee_creature_squad.hpp">
+      <Filter>Squad</Filter>
+    </ClInclude>
+    <ClInclude Include="unit.hpp">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="summoner.hpp">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="creature.hpp">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="melee_creature.hpp">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="range_creature.hpp">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="skill_library.hpp">
+      <Filter>Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="level.hpp">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="gamemap.hpp">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="resolution.hpp">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="coord_t.hpp">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="unit _library.hpp">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="attack.hpp">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="cell.hpp">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="fText.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="message.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="book.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="typed_skill.hpp">
+      <Filter>Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="skill.hpp">
+      <Filter>Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="squad_library.hpp">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="save_map.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="relations_holder.cpp">
+      <Filter>SchoolOfMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="buff_library.cpp">
+      <Filter>Buff library</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+</Project>

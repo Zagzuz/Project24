@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="attack" Collapsed="true">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAASACAAAAAAIAAAAA=</HashCode>
+      <FileName>attack.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cell&lt;XCellSize, YCellSize&gt;" Collapsed="true">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAIAAAAEAAAgA9AAAgEAQQAAIAQAAAEEAEgwAAAAQAQ=</HashCode>
+      <FileName>cell.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="terrain&lt;UnitSchoolType, BuffType&gt;" Collapsed="true">
+    <Position X="9.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>terrain.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="melee_creature_squad&lt;SchoolType&gt;" Collapsed="true">
+    <Position X="2.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAABAAAA=</HashCode>
+      <FileName>melee_creature_squad.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="squad" Collapsed="true">
+    <Position X="1.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAABAgACAACAAAAAAIAACAAgAAACAACBAkAAAIEAAAA=</HashCode>
+      <FileName>squad.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="creature_squad&lt;SchoolType&gt;" Collapsed="true">
+    <Position X="2.75" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAFAAAAAIAAAABAAABAAACIAAAAAAEAAAA=</HashCode>
+      <FileName>creature_squad.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="summoner_squad&lt;SchoolType&gt;" Collapsed="true">
+    <Position X="0.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAACBEAAAAAEAAAA=</HashCode>
+      <FileName>summoner_squad.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="unit_squad&lt;SchoolType&gt;" Collapsed="true">
+    <Position X="1.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAACAAGAAEAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>unit_squad.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="animalism" Collapsed="true">
+    <Position X="3" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>animalism.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="demonology" Collapsed="true">
+    <Position X="5.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>demonology.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="summon_skill&lt;UnitType&lt;&gt;, SchoolType&gt;" Collapsed="true">
+    <Position X="5.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>summon_skill.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="necromancy" Collapsed="true">
+    <Position X="0.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>necromancy.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="school_of_magic" Collapsed="true">
+    <Position X="3" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>school_of_magic.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="melee_creature&lt;SchoolType&gt;" Collapsed="true">
+    <Position X="3" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAgAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>melee_creature.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="range_creature&lt;SchoolType&gt;" Collapsed="true">
+    <Position X="5.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>range_creature.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="summoner&lt;SchoolType&gt;" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAACAAEAAAAACAAAACEEgQAAAAAgAgCAAAA=</HashCode>
+      <FileName>summoner.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="creature&lt;SchoolType&gt;" Collapsed="true">
+    <Position X="4" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACEAEABAAAAAEAQAAAAAAAoAAAAAAgABQAIAA=</HashCode>
+      <FileName>creature.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="unit&lt;SchoolType&gt;" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAgAAAAAAAAAAAAAAAAgAAAAAAAAIAAIAA=</HashCode>
+      <FileName>unit.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="skill_library" Collapsed="true">
+    <Position X="8" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAABAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>skill_library.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="skill&lt;SchoolType&gt;" Collapsed="true">
+    <Position X="5.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABCAAAAAAAAAAgAAAAAAAAgAAAAABAAAAAAAIAA=</HashCode>
+      <FileName>skill.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="gamemap&lt;WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY&gt;" Collapsed="true">
+    <Position X="11.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABgAAAACAgAAABAAAAIIAOABQAEAGAAEAAAAAAAAA=</HashCode>
+      <FileName>gamemap.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="level&lt;WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY&gt;" Collapsed="true">
+    <Position X="13.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAABAAAAAAABAAAAAIAAAAAAAEAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>level.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cmp_resolution::cell_map_resolution&lt;X, Y, ResolutionX, ResolutionY&gt;" Collapsed="true">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAABAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>resolution.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cmp_resolution::cell_map_resolution&lt;16, 9, ResolutionX, ResolutionY&gt;" Collapsed="true">
+    <Position X="13.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAQAAAAABAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>resolution.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cmp_resolution::cell_map_resolution&lt;16, 10, ResolutionX, ResolutionY&gt;" Collapsed="true">
+    <Position X="8" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAQAAAAABAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>resolution.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cmp_resolution::cell_map_resolution&lt;4, 3, ResolutionX, ResolutionY&gt;" Collapsed="true">
+    <Position X="9.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAQAAAAABAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>resolution.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="coeff_holder&lt;SchoolType&gt;" Collapsed="true">
+    <Position X="9.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>relations_holder.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="relations_holder&lt;SchoolType&gt;" Collapsed="true">
+    <Position X="11.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>relations_holder.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="buff_library" Collapsed="true">
+    <Position X="8" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>buff_library.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
