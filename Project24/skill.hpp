@@ -34,19 +34,10 @@ public:
 			std::cerr << "Error skill texture load on path:\n"
 			"'" << path << "'";
 	}
-	void draw_me(sf::RenderWindow& w, const sf::Vector2f& vec) const;
+	const sf::Texture& get_texture() const { return texture_; }
+	void draw_me(sf::RenderWindow& w, const sf::Vector2f& pos) const;
 };
 
-inline void skill::draw_me(sf::RenderWindow& w, const sf::Vector2f& vec) const
+inline void skill::draw_me(sf::RenderWindow& w, const sf::Vector2f& pos) const
 {
-	sf::Sprite sprite;
-	sprite.setTexture(texture_);
-	sprite.setColor(sf::Color::Yellow);
-	sprite.setScale
-	(
-		texture_.getSize().x / float(w.getSize().x) * 0.1, 
-		texture_.getSize().x / float(w.getSize().x) * 0.1
-	);
-	sprite.setPosition(vec);
-	w.draw(sprite);
 }

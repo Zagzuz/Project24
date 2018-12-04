@@ -6,6 +6,7 @@
 #include "gamemap.hpp"
 #include "fText.hpp"
 #include "message.hpp"
+#include "fText_lib.hpp"
 
 template <pixels WindowResolutionX, pixels WindowResolutionY,
 	cmp_resolution::ratio WindowRatioX, cmp_resolution::ratio WindowRatioY>
@@ -62,18 +63,32 @@ void level<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::ac
 {
 	if (squads_queue_.empty())
 	{
+	bool one_team = true;
+		std::string master;
 		for (auto& column : map_.cells_)
+		{
 			for (auto& c : column)
 			{
 				if (c.get_squad())
 				{
+					if (master.empty()) master = c.get_squad()->master_name();
+					else if (master != c.get_squad()->master_name() &&
+						!c.get_squad()->master_name().empty()) one_team = false;
 					if (c.get_squad()->size() == 0 &&
 						--c.get_squad()->get_time_until_disappear() <= 0)
 						c.delete_squad();
 					else squads_queue_.push(&c);
 				}
 			}
+		}
+
+		if (one_team)
+		{
+			w.close();
+			return;
+		}
 	}
+
 
 	if (squads_queue_.empty())
 	{
@@ -148,19 +163,7 @@ void level<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::ac
 			e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::S)
 		{
 			map_.save();
-			push_message
-			(
-				{
-					"saved",
-					"Fonts/04b30.ttf",
-					WindowResolutionY / 50,
-					sf::Color(0, 107, 60),
-					sf::Color::Green,
-					1.0f
-				},
-				0.01f,
-				msg_pos_
-			);
+			push_message(msg::saved(WindowResolutionY / 60), 0.01f, msg_pos_);
 			command_key = -1;
 		}
 		
@@ -169,55 +172,9 @@ void level<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::ac
 	}
 	else if (is_that_squad<creature_squad>(this_cell->get_squad()))
 	{
-		fText commands
-		(
-			"- Press: 'A' to attack, 'M' to move, 'S' to skip",
-			"Fonts/04b30.ttf",
-			WindowResolutionY / 50,
-			sf::Color::Red,
-			sf::Color::White,
-			1.0
-		);
-		fText empty
-		(
-			"[The cell is empty]",
-			"Fonts/04b30.ttf",
-			WindowResolutionY / 50,
-			sf::Color::Blue,
-			sf::Color::White,
-			1.0
-		);
-		fText full
-		(
-			"[There is another squad on the cell]",
-			"Fonts/04b30.ttf",
-			WindowResolutionY / 50,
-			sf::Color::Blue,
-			sf::Color::White,
-			1.0
-		);
-		fText far
-		(
-			"[The victim is too far]",
-			"Fonts/04b30.ttf",
-			WindowResolutionY / 50,
-			sf::Color::Blue,
-			sf::Color::White,
-			1.0
-		);
-		fText far_move
-		(
-			"[The cell is too far]",
-			"Fonts/04b30.ttf",
-			WindowResolutionY / 50,
-			sf::Color::Blue,
-			sf::Color::White,
-			1.0
-		);
-
-
-		commands.setPosition(10.0f, WindowResolutionY - WindowResolutionY / 50 - 5);
-		w.draw(commands);
+		auto cmd = msg::commands(WindowResolutionY / 50);
+		cmd.setPosition(10.0f, WindowResolutionY - WindowResolutionY / 50 - 5);
+		w.draw(cmd);
 
 		static auto command_key = -1;
 
@@ -253,10 +210,7 @@ void level<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::ac
 						w.setMouseCursor(cursor);
 					break;
 				}
-				default:
-				{
-					break;
-				}
+				default: break;
 				}
 				command_key = e.key.code;
 				break;
@@ -279,13 +233,18 @@ void level<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::ac
 			{
 				if (!map_.inside(e.mouseButton.x, e.mouseButton.y)) break;
 				cell_ptr victim_cell = map_.find_cell({ e.mouseButton.x, e.mouseButton.y });
-				if (!victim_cell->get_squad()) { push_message(std::move(empty), 0.01f, msg_pos_); command_key = -1; return; }
-				std::pair<uint8_t, uint8_t> attack_cell_coordinate = lgamemap::find_cell_coordinate(this_cell);
-				std::pair<uint8_t, uint8_t> victim_cell_coordinate = lgamemap::find_cell_coordinate(victim_cell);
-				auto range = lgamemap::find_range(attack_cell_coordinate, victim_cell_coordinate);
-				if (range.first <= 1 && range.second <= 1) this_cell->get_squad()->attack(victim_cell->get_squad());
-				else { push_message(std::move(far), 0.01f, msg_pos_); command_key = -1; return; }
-				squads_queue_.pop();
+				if (!victim_cell->get_squad()) { push_message(std::move(msg::empty(WindowResolutionY / 60)), 0.01f, msg_pos_); command_key = -1; return; }
+				if (this_cell->get_squad()->master_name() == victim_cell->get_squad()->master_name())
+					push_message( std::move(msg::attack_own_squad(WindowResolutionY / 60)), 0.01f, msg_pos_);
+				else
+				{
+					std::pair<uint8_t, uint8_t> attack_cell_coordinate = lgamemap::find_cell_coordinate(this_cell);
+					std::pair<uint8_t, uint8_t> victim_cell_coordinate = lgamemap::find_cell_coordinate(victim_cell);
+					auto range = lgamemap::find_range(attack_cell_coordinate, victim_cell_coordinate);
+					if (range.first <= 1 && range.second <= 1) this_cell->get_squad()->attack(victim_cell->get_squad());
+					else { push_message(std::move(msg::far_victim(WindowResolutionY / 60)), 0.01f, msg_pos_); command_key = -1; return; }
+					squads_queue_.pop();
+				}
 				command_key = -1;
 				return;
 			}
@@ -293,12 +252,22 @@ void level<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::ac
 			{
 				if (!map_.inside(e.mouseButton.x, e.mouseButton.y)) break;
 				cell_ptr move_cell = map_.find_cell({ e.mouseButton.x, e.mouseButton.y });
-				if (move_cell->get_squad()) { push_message(std::move(full), 0.01f, msg_pos_); command_key = -1; return; }
+				if (move_cell->get_cell_type() == lmap_cell::building)
+					{ push_message(std::move(msg::wall_on_the_cell(WindowResolutionY / 60)), 0.01f, msg_pos_); command_key = -1; break; }
+				if (move_cell->get_cell_type() == lmap_cell::abyss)
+				{
+					squads_queue_.pop();
+					this_cell->delete_squad();
+					command_key = -1;
+					return;
+				}
+				if (move_cell->get_squad())
+					{ push_message(std::move(msg::another_squad_on_the_cell(WindowResolutionY / 60)), 0.01f, msg_pos_); command_key = -1; return; }
 				std::pair<uint8_t, uint8_t> this_cell_coordinate = lgamemap::find_cell_coordinate(this_cell);
 				std::pair<uint8_t, uint8_t> move_cell_coordinate = lgamemap::find_cell_coordinate(move_cell);
 				auto range = lgamemap::find_range(this_cell_coordinate, move_cell_coordinate);
 				if (range.first <= 1 && range.second <= 1) move_cell->change_squad(this_cell->remove_squad());
-				else { push_message(std::move(far_move), 0.01f, msg_pos_); command_key = -1; return; }
+				else { push_message(std::move(msg::far_cell(WindowResolutionY / 60)), 0.01f, msg_pos_); command_key = -1; return; }
 				squads_queue_.pop();
 				command_key = -1;
 				return;
@@ -319,19 +288,7 @@ void level<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::ac
 			e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::S)
 		{
 			map_.save();
-			push_message
-			(
-				{
-					"saved",
-					"Fonts/04b30.ttf",
-					WindowResolutionY / 50,
-					sf::Color(0, 107, 60),
-					sf::Color::Green,
-					1.0f
-				},
-				0.06f,
-				msg_pos_
-			);
+			push_message(std::move(msg::saved(WindowResolutionY / 60)), 0.06f, msg_pos_);
 			command_key = -1;
 		}
 

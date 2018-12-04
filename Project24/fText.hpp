@@ -17,6 +17,7 @@ public:
 		const float thick
 	);
 	fText(fText&& text) noexcept;
+	fText(const fText& text);
 	~fText() { delete font_; }
 };
 
@@ -48,4 +49,10 @@ inline fText::fText(fText&& text) noexcept : sf::Text(std::move(text))
 {
 	font_ = text.font_;
 	text.font_ = nullptr;
+}
+
+inline fText::fText(const fText& text) : sf::Text(text)
+{
+	if (text.font_ == nullptr) font_ = nullptr;
+	else font_ = new sf::Font(*text.font_);
 }

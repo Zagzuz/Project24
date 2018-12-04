@@ -7,7 +7,7 @@
 
 struct squad_saver
 {
-	std::map<std::string, squad*(*)(size_t)> creatures_map =
+	std::map<std::string, squad*(*)(size_t, std::string)> creatures_map =
 	{
 		{"skeleton", squad_library::skeleton_squad},
 		{"tiger", squad_library::tiger_squad},

@@ -48,7 +48,9 @@ public:
 	virtual void victim(ChType damage, relation_coeffs_t&) = 0;	
 	virtual void spell_cast(skill*) const { std::cout << "squad spell_cast"; }
 	virtual void add_skill(skill*) { std::cout << "squad add skill"; }
-	virtual void save(const std::string& filename) const;
+	//virtual void save(const std::string& filename) const;
+	virtual std::string master_name() const { return {}; }
+	virtual sf::Color get_color() const { return sf::Color(0, 0, 0, 0); }
 	virtual std::size_t size() const { return 1; }
 	virtual ~squad() = default;
 };
@@ -60,11 +62,11 @@ inline void squad::load_textures()
 	if (!dead_texture_.loadFromFile(dpath_))
 		std::cerr << "Error in dead squad texture loading " << dpath_;
 }
-
-inline void squad::save(const std::string& filename) const
-{
-	std::ofstream f(filename, std::ios_base::out | std::ios_base::trunc);
-}
+//
+//inline void squad::save(const std::string& filename) const
+//{
+//	std::ofstream f(filename, std::ios_base::out | std::ios_base::trunc);
+//}
 
 template <template <class = necromancy> class SquadType,
 	typename = std::enable_if<std::is_base_of_v<squad, SquadType<>>>>

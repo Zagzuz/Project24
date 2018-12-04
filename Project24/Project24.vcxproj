@@ -143,11 +143,15 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="attack.hpp">
+    <ClInclude Include="book.hpp">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="book.hpp">
+    <ClInclude Include="fText_lib.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="skill_slot.hpp">
       <SubType>
       </SubType>
     </ClInclude>

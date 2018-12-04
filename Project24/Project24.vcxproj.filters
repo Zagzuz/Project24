@@ -108,9 +108,6 @@
     <ClInclude Include="unit _library.hpp">
       <Filter>Unit</Filter>
     </ClInclude>
-    <ClInclude Include="attack.hpp">
-      <Filter>Unit</Filter>
-    </ClInclude>
     <ClInclude Include="cell.hpp">
       <Filter>Level</Filter>
     </ClInclude>
@@ -133,6 +130,12 @@
       <Filter>Unit</Filter>
     </ClInclude>
     <ClInclude Include="save_map.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="skill_slot.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="fText_lib.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
