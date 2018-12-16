@@ -4,6 +4,7 @@
 
 #include "unit_squad.hpp"
 #include "summoner_squad.hpp"
+#include "book.hpp"
 
 template <class SchoolType>
 class creature_squad : public unit_squad<SchoolType>
@@ -12,8 +13,9 @@ protected:
 	ChType damage_dealt_to_the_last_unit_;
 	std::size_t size_, dead_;
 	std::string master_;
-	sf::Color team_color;
+	sf::Color team_color_;
 public:
+	creature_squad() : damage_dealt_to_the_last_unit_(0), size_(0), dead_(0) {}
 	explicit creature_squad
 	(
 		const unsigned initiative,
@@ -30,8 +32,11 @@ public:
 	void attack(squad* victim_squad) override;
 	void victim(ChType damage, relation_coeffs_t&) override;
 	void set_master(squad* master_squad);
+	void set_cur_exp(ChType) override {/*set creatures exp*/ }
 	std::string master_name() const override { return master_; }
-	sf::Color get_color() const override { return team_color; }
+	void cook_color();
+	sf::Color get_color() const override { return team_color_; }
+	const book& get_book() const override { return {}; }
 };
 
 template <class SchoolType>
@@ -49,11 +54,7 @@ creature_squad<SchoolType>::creature_squad
 	dead_(0),
 	master_(std::move(master_name))
 {
-	std::mt19937 machine;
-	const std::hash<std::string> hash_fn;
-	machine.seed(hash_fn(master_));
-	const std::uniform_int_distribution<> dis(0, 255);
-	team_color = { uint8_t(dis(machine)), uint8_t(dis(machine)), uint8_t(dis(machine)) };
+	cook_color();
 }
 
 template <class SchoolType>
@@ -102,4 +103,14 @@ void creature_squad<SchoolType>::set_master(squad* master_squad)
 {
 	if (is_that_squad<summoner_squad>(master_squad)) 
 		master_ = master_squad->get_name();
+}
+
+template <class SchoolType>
+void creature_squad<SchoolType>::cook_color()
+{
+	std::mt19937 machine;
+	const std::hash<std::string> hash_fn;
+	machine.seed(hash_fn(master_));
+	const std::uniform_int_distribution<> dis(0, 255);
+	team_color_ = { uint8_t(dis(machine)), uint8_t(dis(machine)), uint8_t(dis(machine)) };
 }

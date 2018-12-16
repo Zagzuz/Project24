@@ -45,9 +45,6 @@
     <ClInclude Include="buff_library.hpp">
       <Filter>Buff library</Filter>
     </ClInclude>
-    <ClInclude Include="summon_skill.hpp">
-      <Filter>SchoolOfMagic</Filter>
-    </ClInclude>
     <ClInclude Include="necromancy.hpp">
       <Filter>SchoolOfMagic</Filter>
     </ClInclude>
@@ -105,9 +102,6 @@
     <ClInclude Include="coord_t.hpp">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="unit _library.hpp">
-      <Filter>Unit</Filter>
-    </ClInclude>
     <ClInclude Include="cell.hpp">
       <Filter>Level</Filter>
     </ClInclude>
@@ -120,14 +114,8 @@
     <ClInclude Include="book.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="typed_skill.hpp">
-      <Filter>Skill</Filter>
-    </ClInclude>
     <ClInclude Include="skill.hpp">
       <Filter>Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="squad_library.hpp">
-      <Filter>Unit</Filter>
     </ClInclude>
     <ClInclude Include="save_map.hpp">
       <Filter>Файлы заголовков</Filter>
@@ -137,6 +125,15 @@
     </ClInclude>
     <ClInclude Include="fText_lib.hpp">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="unit_library.hpp">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="school_improvement.hpp">
+      <Filter>SchoolOfMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="squad_library.hpp">
+      <Filter>Squad</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

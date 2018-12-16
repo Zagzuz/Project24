@@ -23,8 +23,11 @@ class gamemap
 	sf::Texture texture_;
 public:
 	gamemap();
+	void load();
+	void save() const;
 	gamemap(gamemap&&) = default;
 	void draw_me(sf::RenderWindow& w);
+	void add_skill(int x, int y, skill* s);
 	using map_cell = cell<x_cell_size_, y_cell_size_>;
 	static bool inside(pixels x_coord, pixels y_coord);
 	void remove_squad(const coord_t x, const coord_t y);
@@ -32,16 +35,13 @@ public:
 	void place_squad(const coord_t x, const coord_t y, squad* s);
 	const map_cell& find_cell(pixels x_coord, pixels y_coord) const;
 	squad* operator() (pixels x, pixels y) { return find_cell({ x, y })->get_squad(); } // get map squad
-	void add_skill(int x, int y, skill* s);
 	static pixels left_coordinate() { return (WindowResolutionX - map_resolution_x) / 2; }
 	static pixels bottom_coordinate() { return (WindowResolutionY - map_resolution_y) / 2; }
 	template <pixels, pixels, cmp_resolution::ratio, cmp_resolution::ratio> friend class level;
-	static pixels top_coordinate() { return WindowResolutionY - (WindowResolutionY - map_resolution_y) / 2; }
-	static pixels right_coordinate() { return WindowResolutionX - (WindowResolutionX - map_resolution_x) / 2; }
 	void dig_an_abyss(uint8_t x_cell, uint8_t y_cell) { cells_[x_cell][y_cell].dig_an_abyss(); }
 	void build_a_wall(uint8_t x_cell, uint8_t y_cell) { cells_[x_cell][y_cell].build_a_wall (); }
-	void save() const;
-	void load();
+	static pixels top_coordinate() { return WindowResolutionY - (WindowResolutionY - map_resolution_y) / 2; }
+	static pixels right_coordinate() { return WindowResolutionX - (WindowResolutionX - map_resolution_x) / 2; }
 private:
 	std::vector<std::vector<map_cell>> cells_;
 	map_cell* find_cell(const sf::Vector2i& vec);
@@ -119,7 +119,7 @@ void gamemap<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::
 	// get mouse position to highlight cells
 	const auto v = sf::Mouse::getPosition(w);
 	const bool lclick = sf::Mouse::isButtonPressed(sf::Mouse::Left);
-	const bool rclick = sf::Mouse::isButtonPressed(sf::Mouse::Right);
+	//const bool rclick = sf::Mouse::isButtonPressed(sf::Mouse::Right);
 
 	//for each cell
 	for (auto& column : cells_)
@@ -139,8 +139,8 @@ void gamemap<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::
 			c.draw_squad(w);
 			c.draw_obstacle(w);
 
-			if (mouse_inside && rclick)
-				c.rclick_me(w);
+			/*if (mouse_inside && rclick)
+				c.rclick_me(w);*/
 		}
 }
 
@@ -210,30 +210,52 @@ std::pair<uint8_t, uint8_t> gamemap<WindowResolutionX, WindowResolutionY, Window
 
 template <pixels WindowResolutionX, pixels WindowResolutionY, 
 	cmp_resolution::ratio WindowRatioX, cmp_resolution::ratio WindowRatioY>
-void gamemap<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::save() const
+	void gamemap<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::save() const
 {
-	std::ofstream ft_stream("Saves/map.smn");
+	/*std::ofstream ft_stream("Saves/map.smn");
 	for (uint8_t i = 0; i < x_cells_number; ++i)
 		for (uint8_t j = 0; j < y_cells_number; ++j)
 		{
 			if (cells_[i][j].get_squad())
 			{
 				ft_stream << int(i) << ' ' << int(j) << ' '
-					<< cells_[i][j].get_squad()->get_unit_name() << ' ' 
-					<< (cells_[i][j].get_squad()->master_name().empty() ? 
+					<< cells_[i][j].get_squad()->get_unit_name() << ' '
+					<< (cells_[i][j].get_squad()->master_name().empty() ?
 						"-" : cells_[i][j].get_squad()->master_name());
 				if (is_that_squad<melee_creature_squad>(cells_[i][j].get_squad()))
 					ft_stream << cells_[i][j].get_squad()->size() << ' ';
 			}
 		}
-	ft_stream.close();
+	ft_stream.close();*/
+
+	for (uint8_t i = 0; i < x_cells_number; ++i)
+	{
+		for (uint8_t j = 0; j < y_cells_number; ++j)
+		{
+			std::ofstream file_stream("Saves/cell" +
+				std::to_string(int(i)) + '_' + std::to_string(int(j)) + ".smn");
+			file_stream << cells_[i][j].save_info();
+			file_stream.close();
+		}
+	}
 }
 
 template <pixels WindowResolutionX, pixels WindowResolutionY, 
 	cmp_resolution::ratio WindowRatioX, cmp_resolution::ratio WindowRatioY>
 	void gamemap<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::load()
 {
-	std::ifstream ft_stream("Saves/map.smn");
+	for (uint8_t i = 0; i < x_cells_number; ++i)
+	{
+		for (uint8_t j = 0; j < y_cells_number; ++j)
+		{
+			std::ifstream file_stream("Saves/cell" +
+				std::to_string(int(i)) + '_' + std::to_string(int(j)) + ".smn");
+			cells_[i][j].load_info(file_stream);
+			file_stream.close();
+		}
+	}
+
+	/*std::ifstream ft_stream("Saves/map.smn");
 	squad_saver sq;
 
 	std::string map_info;
@@ -282,7 +304,7 @@ template <pixels WindowResolutionX, pixels WindowResolutionY,
 		}
 	}
 	
-	ft_stream.close();
+	ft_stream.close();*/
 }
 
 

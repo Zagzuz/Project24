@@ -1,8 +1,7 @@
 #pragma once
 
-#include "squad.hpp"
 #include "melee_creature_squad.hpp"
-#include "unit _library.hpp"
+#include "unit_library.hpp"
 
 namespace squad_library
 {

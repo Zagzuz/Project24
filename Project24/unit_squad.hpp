@@ -8,9 +8,10 @@ template <class SchoolType>
 class unit_squad : public squad
 {
 protected:
-	const std::unique_ptr<unit<SchoolType>> units_chs_; // original unit characteristics
+	std::unique_ptr<const unit<SchoolType>> units_chs_; // original unit characteristics
 	std::unique_ptr<unit<SchoolType>> cur_unit_chs_; // characteristics under buffs
 public:
+	unit_squad() : units_chs_(nullptr) { cur_unit_chs_ = nullptr; }
 	explicit unit_squad(const unsigned, std::string, unit<SchoolType>&);
 	unit_squad(const unit_squad&) = delete;
 	unit_squad(unit_squad&&) = default;
@@ -38,7 +39,7 @@ void unit_squad<SchoolType>::remove_buff(const std::any& b)
 			break;
 		}
 
-	this->cur_unit_chs_.reset(this->units_chs_.get());
+	this->cur_unit_chs_.reset(const_cast<unit<SchoolType>*>(this->units_chs_.get()));
 	for (const auto& buff_effect : this->buffs_)
 		this->cur_unit_chs_->apply_buff(buff_effect);
 }

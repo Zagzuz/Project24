@@ -16,4 +16,6 @@ public:
 	std::string get_name() const { return name_; }
 	virtual void apply_buff(const std::any&) = 0;
 	virtual unit<SchoolType>* get_copy() = 0;
+	virtual std::string save_info() const = 0;
+	virtual void load_info(std::ifstream& file_stream) = 0;
 };

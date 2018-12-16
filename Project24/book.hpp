@@ -6,6 +6,7 @@
 #include "fText.hpp"
 #include "skill_slot.hpp"
 #include <SFML/Window/Mouse.hpp>
+#include <SFML/Window/Event.hpp>
 
 //_____  _____
 //|_|_|  |_|_|
@@ -22,9 +23,11 @@ public:
 	book();
 	book(std::initializer_list<skill*> skills);
 	void add_skill(skill* s) { skill_slots_.emplace_back(skill_slot(s)); }
-	void draw_me(sf::RenderWindow& w) const;
-	void left_click(sf::RenderWindow& w, const sf::Vector2f& mouse_pos) const;
-	skill* get_skill(const sf::Vector2f& mouse_pos);
+	skill* draw_me(sf::RenderWindow& w, sf::Event& e, const ChType mana, ChType& current_mana) const;
+	//void left_click(sf::RenderWindow& w, const sf::Vector2f& mouse_pos) const;
+	//skill* get_skill(const sf::Vector2f& mouse_pos);
+	std::string save_info() const;
+	void load_info(std::ifstream& file_stream);
 };
 
 inline book::book()
@@ -45,7 +48,7 @@ inline book::book(std::initializer_list<skill*> skills)
 		std::cerr << "Error wizard's table texture load";
 }
 
-inline void book::draw_me(sf::RenderWindow& w) const
+inline skill* book::draw_me(sf::RenderWindow& w, sf::Event& e, const ChType mana, ChType& current_mana) const
 {
 	sf::Sprite table_sprite;
 	table_sprite.setTexture(table_);
@@ -76,6 +79,16 @@ inline void book::draw_me(sf::RenderWindow& w) const
 	ft.setPosition(float(w.getSize().x) / 50, float(w.getSize().y) / 50);
 	w.draw(ft);
 
+	fText mana_text(std::to_string(int(current_mana)) + "/" + std::to_string(int(mana)), 
+		"Fonts/04b30.ttf", 15, sf::Color::Blue, sf::Color::White, 0.7f);
+	mana_text.setPosition
+	(
+		float(w.getSize().x) * 0.8f - mana_text.findCharacterPos(mana_text.getString().getSize() - 1).x + 25,
+		float(w.getSize().y) * 0.8f + mana_text.getCharacterSize()
+	);
+
+	w.draw(mana_text);
+
 	/*fText next("-> to open next page", "Fonts/04b30.ttf", 20, sf::Color::Transparent, sf::Color::White, 0.5);
 	next.setPosition
 	(
@@ -102,8 +115,11 @@ inline void book::draw_me(sf::RenderWindow& w) const
 	uint8_t i = 0, j = 0;
 	while (i <= 6 && j <= 4 && it != skill_slots_.end())
 	{
-		const sf::Vector2f slot_pos{ start_x + i * interval_x, start_y + j * interval_y};
+		w.pollEvent(e);
+		if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Escape)
+			return nullptr;
 
+		const sf::Vector2f slot_pos{ start_x + i * interval_x, start_y + j * interval_y};
 		const auto mouse_x = sf::Mouse::getPosition(w).x;
 		const auto mouse_y = sf::Mouse::getPosition(w).y;
 
@@ -113,11 +129,15 @@ inline void book::draw_me(sf::RenderWindow& w) const
 			mouse_y <= slot_pos.y + slot_size.x)
 		{
 			it->highlight_me(w, slot_pos, slot_size);
+			if (e.type == sf::Event::MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left)
+				if (it->get_skill()->get_mana_cost() <= current_mana)
+				{
+					current_mana -= it->get_skill()->get_mana_cost();
+					e = {};
+					return it->get_skill();
+				}
 		}
-		else
-		{
-			it->draw_me(w, slot_pos, slot_size);
-		}
+		else it->draw_me(w, slot_pos, slot_size);
 
 		++it;
 
@@ -128,14 +148,26 @@ inline void book::draw_me(sf::RenderWindow& w) const
 		}
 		else ++i;
 	}
+
+	return nullptr;
 }
 
-inline void book::left_click(sf::RenderWindow& w, const sf::Vector2f& mouse_pos) const
+inline std::string book::save_info() const
 {
-	
+	std::ostringstream oss;
+	oss << skill_slots_.size() << ' ';
+	for (auto& slot : skill_slots_)
+		oss << slot.save_info();
+	return oss.str();
 }
 
-inline skill* book::get_skill(const sf::Vector2f& mouse_pos)
+inline void book::load_info(std::ifstream& file_stream)
 {
-
+	size_t size;
+	file_stream >> size;
+	while (size--)
+	{
+		skill_slots_.emplace_back(skill_slot(new skill()));
+		skill_slots_.back().load_info(file_stream);
+	}
 }

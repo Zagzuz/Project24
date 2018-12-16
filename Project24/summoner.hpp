@@ -2,6 +2,9 @@
 
 #include "unit.hpp"
 #include "relations_holder.hpp"
+#include <fstream>
+#include <sstream>
+#include <string>
 
 using knowledge_values_t = relation_coeffs_t;
 
@@ -15,6 +18,8 @@ protected:
 	ChType level_;
 	knowledge_values_t values_;
 public:
+	summoner() : unit<SchoolType>(), values_{ 0, 0, 0 } {}
+
 	summoner
 	(
 		std::string name,
@@ -31,9 +36,15 @@ public:
 	ChType get_mana() const { return mana_; }
 	ChType get_experience() const { return experience_; }
 	ChType get_level() const { return level_; }
+	ChType& change_exp() { return experience_; }
+	void set_mana(const ChType m) { mana_ = m; }
+	
+	std::string save_info() const override;
+	void load_info(std::ifstream& file_stream) override;
 
-	template <class KnownSchoolType>
-	ChType knowledge_value() const;
+	template <class KnownSchoolType> ChType get_knowledge_value() const;
+	template <class KnownSchoolType> void set_knowledge_value(ChType v);
+
 	void apply_buff(const std::any& b) override;
 	unit<SchoolType>* get_copy() override;
 
@@ -41,10 +52,38 @@ public:
 };
 
 template <class SchoolType>
-template <class KnownSchoolType>
-ChType summoner<SchoolType>::knowledge_value() const
+std::string summoner<SchoolType>::save_info() const
 {
-	return std::get<KnownSchoolType>(values_);
+	std::ostringstream oss;
+	oss << "summoner" << ' '
+		<< this->name_ << ' '
+		<< this->mana_ << ' '
+		<< this->experience_ << ' '
+		<< this->level_ << ' ';
+	return oss.str();
+}
+
+template<class SchoolType>
+void summoner<SchoolType>::load_info(std::ifstream& file_stream)
+{
+	file_stream >> this->name_;
+	file_stream >> this->mana_;
+	file_stream >> this->experience_;
+	file_stream >> this->level_;
+}
+
+template <class SchoolType>
+template <class KnownSchoolType>
+ChType summoner<SchoolType>::get_knowledge_value() const
+{
+	return std::get<coeff_holder<KnownSchoolType>>(values_).coeff;
+}
+
+template <class SchoolType>
+template <class KnownSchoolType>
+void summoner<SchoolType>::set_knowledge_value(ChType v)
+{
+	std::get<coeff_holder<KnownSchoolType>>(values_).coeff = v;
 }
 
 template <class SchoolType>

@@ -7,6 +7,8 @@
 #include "fText.hpp"
 #include "message.hpp"
 #include "fText_lib.hpp"
+#include <SFML/Window/Event.hpp>
+#include "school_improvement.hpp"
 
 template <pixels WindowResolutionX, pixels WindowResolutionY,
 	cmp_resolution::ratio WindowRatioX, cmp_resolution::ratio WindowRatioY>
@@ -26,15 +28,19 @@ class level
 	std::priority_queue<cell_ptr, std::vector<cell_ptr>, decltype(cell_ptr_cmp_)> squads_queue_{cell_ptr_cmp_};
 	inline static sf::Vector2f msg_pos_ = { WindowResolutionX * 3 / 4, WindowResolutionY - WindowResolutionY / 50 - 5 };
 public:
-	enum mode_t { battle_mode, book_mode, settings_mode };
+	enum mode_t { battle_mode, book_mode, school_mode, settings_mode };
 	int get_mode() const { return mode_; }
 	explicit level(lgamemap& m);
 	void action(sf::RenderWindow& w, sf::Event& e);
 	void draw(sf::RenderWindow& w);
 	void open_book(sf::RenderWindow& w, sf::Event& e);
+	void improve_knowledge(sf::RenderWindow& w, sf::Event& e);
+	std::pair<squad*, skill*> draw_book(sf::RenderWindow& w, sf::Event& e);
+	void summon(sf::RenderWindow&w, sf::Event& e, skill* s, squad* summoner_);
 	void push_message(fText&& msg, const float duration, const sf::Vector2f& position);
-
+	void place_squad(const coord_t x, const coord_t y, squad* s) { map_.place_squad(x, y, s); }
 private:
+	school_improvement school_improvement_mode_;
 	mode_t mode_ = battle_mode;
 };
 
@@ -136,10 +142,12 @@ void level<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::ac
 					return;
 				case sf::Keyboard::B:
 				{
-					sf::Cursor cursor;
-					if (cursor.loadFromSystem(sf::Cursor::Hand))
-						w.setMouseCursor(cursor);
 					mode_ = book_mode;
+					return;
+				}
+				case sf::Keyboard::K:
+				{
+					mode_ = school_mode;
 					return;
 				}
 				default:
@@ -311,21 +319,103 @@ void level<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::dr
 
 template <pixels WindowResolutionX, pixels WindowResolutionY, 
 	cmp_resolution::ratio WindowRatioX, cmp_resolution::ratio WindowRatioY>
-void level<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::open_book(sf::RenderWindow& w, sf::Event& e)
+void level<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::open_book
+(
+	sf::RenderWindow& w, 
+	sf::Event& e
+)
 {
-	w.pollEvent(e);
-	auto this_cell = squads_queue_.top();
-	dynamic_cast<summoner_squad<necromancy>*>(this_cell->get_squad())->get_book().draw_me(w);
+	static skill* skill_ptr = nullptr;
+	static squad* summoner_ = nullptr;
+	if (skill_ptr == nullptr)
+	{
+		w.pollEvent(e);
+		const auto cast_info = draw_book(w, e);
+		if (mode_ == battle_mode) return;
+		summoner_ = cast_info.first;
+		skill_ptr = cast_info.second;
+	}
+	if (skill_ptr)
+	{
+		summon(w, e, skill_ptr, summoner_);
+		if (mode_ == battle_mode)
+			skill_ptr = nullptr;
+		return;
+	}
 
+	
+	if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Right)
+	{
+		// to the next page
+	}
+}
+
+template <pixels WindowResolutionX, pixels WindowResolutionY, 
+	cmp_resolution::ratio WindowRatioX, cmp_resolution::ratio WindowRatioY>
+void level<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::improve_knowledge
+(
+	sf::RenderWindow& w,
+	sf::Event& e
+)
+{
+	bool changed = school_improvement_mode_.draw(w, e, squads_queue_.top()->get_squad());
+	if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Escape)
+	{
+		mode_ = battle_mode;
+		if (changed) squads_queue_.pop();
+	}
+}
+
+template <pixels WindowResolutionX, pixels WindowResolutionY,
+	cmp_resolution::ratio WindowRatioX, cmp_resolution::ratio WindowRatioY>
+std::pair<squad*, skill*>
+level<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::draw_book(sf::RenderWindow& w, sf::Event& e)
+{
+	auto* squad_ = squads_queue_.top()->get_squad();
+	auto cur_mana = squad_->get_cur_mana();
+	auto skill_ptr = squad_->get_book().draw_me(w, e, squad_->get_mana(), cur_mana);
+	if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Escape)
+		mode_ = battle_mode;
+	squad_->set_cur_mana(cur_mana);
+	return std::pair<squad*, skill*>(squad_, skill_ptr);
+}
+
+template <pixels WindowResolutionX, pixels WindowResolutionY,
+	cmp_resolution::ratio WindowRatioX, cmp_resolution::ratio WindowRatioY>
+void level<WindowResolutionX, WindowResolutionY, WindowRatioX, WindowRatioY>::summon
+(
+	sf::RenderWindow& w,
+	sf::Event& e,
+	skill* s,
+	squad* summoner_
+)
+{
+	draw(w);
+	w.pollEvent(e);
+	
 	if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Escape)
 	{
 		mode_ = battle_mode;
 		return;
 	}
-	
-	if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Right)
+
+	if (e.type == sf::Event::MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left)
 	{
-		// to the next page
+		auto cell_ptr = map_.find_cell({ e.mouseButton.x, e.mouseButton.y });
+		if (cell_ptr->get_squad() || cell_ptr->get_cell_type() != lmap_cell::normal)
+		{
+			push_message({ "This cell is busy]", "Fonts/04b30.ttf", 12, sf::Color::Red, sf::Color::Black, 0.5f },
+				0.01f, msg_pos_);
+			return;
+		}
+		
+		cell_ptr->change_squad(
+			s->operator()(summoner_->get_level() / 10 * summoner_->get_knowledge_value(s->get_school()), 
+				summoner_->get_name())
+		);
+
+		mode_ = battle_mode;
+		squads_queue_.pop();
 	}
 }
 

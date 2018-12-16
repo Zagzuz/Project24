@@ -14,7 +14,7 @@
 #include "gamemap.hpp"
 #include "melee_creature.hpp"
 #include "melee_creature_squad.hpp"
-#include "unit _library.hpp"
+#include "unit_library.hpp"
 #include "level.hpp"
 #include "skill_library.hpp"
 #include "squad_library.hpp"
@@ -44,54 +44,58 @@ int main()
 	using mlevel = level<resolution_x, resolution_y, aspect_ratio_x, aspect_ratio_y>;
 
 	mgamemap1 g;
-	//g.load();
-
-	g.add_skill(0, 0, skill_library::summon_skeleton());
-	g.add_skill(0, 0, skill_library::summon_skeleton());
-	g.add_skill(0, 0, skill_library::summon_skeleton());
-	g.add_skill(0, 0, skill_library::summon_skeleton());
-	g.add_skill(0, 0, skill_library::summon_skeleton());
-	g.add_skill(0, 0, skill_library::summon_skeleton());
-
-	g.add_skill(0, 0, skill_library::summon_demon());
-	g.add_skill(0, 0, skill_library::summon_demon());
-	g.add_skill(0, 0, skill_library::summon_demon());
-	g.add_skill(0, 0, skill_library::summon_demon());
-	g.add_skill(0, 0, skill_library::summon_demon());
-	g.add_skill(0, 0, skill_library::summon_demon());
-
-	g.add_skill(0, 0, skill_library::summon_penguin());
-	g.add_skill(0, 0, skill_library::summon_penguin());
-	g.add_skill(0, 0, skill_library::summon_penguin());
-	g.add_skill(0, 0, skill_library::summon_penguin());
-	g.add_skill(0, 0, skill_library::summon_penguin());
-	g.add_skill(0, 0, skill_library::summon_penguin());
-
-	g.add_skill(0, 0, skill_library::summon_tiger());
-	g.add_skill(0, 0, skill_library::summon_tiger());
-	g.add_skill(0, 0, skill_library::summon_tiger());
-	g.add_skill(0, 0, skill_library::summon_tiger());
-	g.add_skill(0, 0, skill_library::summon_tiger());
-	g.add_skill(0, 0, skill_library::summon_tiger());
-
-	g.add_skill(0, 0, skill_library::summon_skeleton());
-	g.add_skill(0, 0, skill_library::summon_skeleton());
-	g.add_skill(0, 0, skill_library::summon_skeleton());
-	g.add_skill(0, 0, skill_library::summon_skeleton());
-	g.add_skill(0, 0, skill_library::summon_skeleton());
-	g.add_skill(0, 0, skill_library::summon_skeleton());
+	g.load();
 	
-	g.place_squad(3, 3, squad_library::skeleton_squad(1, "Arantir"));
+	/*g.place_squad(3, 3, squad_library::skeleton_squad(1, "Arantir"));
 	g.place_squad(3, 2, squad_library::skeleton_squad(2, "Arantir"));
 	g.place_squad(2, 3, squad_library::penguin_squad(99, "Arantir"));
 	g.place_squad(10, 4, squad_library::demon_squad(1, "Agrail"));
 	g.place_squad(10, 5, squad_library::tiger_squad(15, "Agrail"));
 
-	g.place_squad(0, 0, squad_library::arantir_squad());
 	g.place_squad(11, 0, squad_library::agrail_squad());
+	g.place_squad(0, 0, squad_library::arantir_squad());
+
+	g.add_skill(11, 0, skill_library::summon_skeleton());
+
+	g.add_skill(0, 0, skill_library::summon_skeleton());
+	g.add_skill(0, 0, skill_library::summon_skeleton());
+	g.add_skill(0, 0, skill_library::summon_skeleton());
+	g.add_skill(0, 0, skill_library::summon_skeleton());
+	g.add_skill(0, 0, skill_library::summon_skeleton());
+	g.add_skill(0, 0, skill_library::summon_skeleton());
+
+	g.add_skill(0, 0, skill_library::summon_demon());
+	g.add_skill(0, 0, skill_library::summon_demon());
+	g.add_skill(0, 0, skill_library::summon_demon());
+	g.add_skill(0, 0, skill_library::summon_demon());
+	g.add_skill(0, 0, skill_library::summon_demon());
+	g.add_skill(0, 0, skill_library::summon_demon());
+
+	g.add_skill(0, 0, skill_library::summon_penguin());
+	g.add_skill(0, 0, skill_library::summon_penguin());
+	g.add_skill(0, 0, skill_library::summon_penguin());
+	g.add_skill(0, 0, skill_library::summon_penguin());
+	g.add_skill(0, 0, skill_library::summon_penguin());
+	g.add_skill(0, 0, skill_library::summon_penguin());
+
+	g.add_skill(0, 0, skill_library::summon_tiger());
+	g.add_skill(0, 0, skill_library::summon_tiger());
+	g.add_skill(0, 0, skill_library::summon_tiger());
+	g.add_skill(0, 0, skill_library::summon_tiger());
+	g.add_skill(0, 0, skill_library::summon_tiger());
+	g.add_skill(0, 0, skill_library::summon_tiger());
+
+	g.add_skill(0, 0, skill_library::summon_skeleton());
+	g.add_skill(0, 0, skill_library::summon_skeleton());
+	g.add_skill(0, 0, skill_library::summon_skeleton());
+	g.add_skill(0, 0, skill_library::summon_skeleton());
+	g.add_skill(0, 0, skill_library::summon_skeleton());
+	g.add_skill(0, 0, skill_library::summon_skeleton());
 
 	g.build_a_wall(5, 5);
 	g.dig_an_abyss(8, 4);
+
+	g.save();*/
 
 	mlevel l(g);
 
@@ -106,6 +110,9 @@ int main()
 			break;
 		case mlevel::book_mode:
 			l.open_book(window, event);
+			break;
+		case mlevel::school_mode:
+			l.improve_knowledge(window, event);
 			break;
 		default:
 			break;
